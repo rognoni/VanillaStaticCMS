@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <title>🍮 VanillaCMS</title>
+  </head>
+  <body>
+    <main class="container">
+      <nav>
+        <ul>
+          <li><a href="./"><strong>🍮 Vanilla(static)CMS</strong></a></li>
+        </ul>
+        <ul>
+          <li><a href="https://neocities.org/site/monastic">Neocities</a></li>
+        </ul>
+      </nav>
+      <article id="content"></article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        window.addEventListener("load", async (event) => {
+            const params = new URLSearchParams(document.location.search)
+            const filepath = params.get("c") ?? "README.md"
+            const filefetch = await fetch(filepath, {method: "GET", cache: "no-store"})
+            const markdown = await filefetch.text()
+            document.getElementById("content").innerHTML = marked.parse(markdown)
+        })
+    </script>
+  </body>
+</html>
