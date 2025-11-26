@@ -1,9 +1,9 @@
 # Content management system, made in Vanilla <del>PHP</del>
 
-If you want to rebuild the web from the ground up, without dependencies, this is the right project for you:
+Introducing **Vanilla(static)CMS** a lightweight and minimalistic Content Management System built with Vanilla JavaScript and Markdown. Designed for simplicity and ease of use, this CMS empowers users to manage content effortlessly, focusing on a clean and streamlined user experience:
 
 - inspired by [VanillaCMS](https://github.com/rognoni/vanillacms) (PHP)
-- made in [Vanilla JS](http://vanilla-js.com)
+- built with [Vanilla JS](http://vanilla-js.com) and [Markdown](https://en.wikipedia.org/wiki/Markdown)
 - front-end with [Pico CSS](https://picocss.com), [Marked](https://marked.js.org)
 
 This is the core idea:

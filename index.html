@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <title>🍮 VanillaCMS</title>
+    <title>V(🍮)CMS</title>
   </head>
   <body>
     <main class="container">
       <nav>
         <ul>
-          <li><a href="./"><strong>🍮 Vanilla(static)CMS</strong></a></li>
+          <li><a href="./"><strong>V(🍮)CMS</strong></a></li>
         </ul>
         <ul>
           <li><a href="https://neocities.org/site/monastic">Neocities</a></li>
@@ -23,7 +23,7 @@
     <script>
         window.addEventListener("load", async (event) => {
             const params = new URLSearchParams(document.location.search)
-            const filepath = params.get("c") ?? "README.md"
+            const filepath = params.get("c") ?? "index.md"
             const filefetch = await fetch(filepath, {method: "GET", cache: "no-store"})
             const markdown = await filefetch.text()
             document.getElementById("content").innerHTML = marked.parse(markdown)
