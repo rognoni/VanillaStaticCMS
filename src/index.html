@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
+    <meta name="generator" content="V(🍮)CMS">
+    <link rel="source" href="" type="text/markdown">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <title>V(🍮)CMS</title>
   </head>
@@ -14,19 +16,69 @@
           <li><a href="./"><strong>V(🍮)CMS</strong></a></li>
         </ul>
         <ul>
+          <li><a href="?c=docs/index.md">docs</a></li>
           <li><a href="https://neocities.org/site/monastic">Neocities</a></li>
         </ul>
       </nav>
-      <article id="content"></article>
+      <article>
+        <div id="title"></div>
+        <ul id="toc"></ul>
+        <div id="content"></div>
+      </article>
+      <small>
+        <nav>
+          <ul>
+            <li><a href="https://www.linkedin.com/in/laravista/">LinkedIn</a></li>
+            <li><a href="https://techhub.social/@laravista">Mastodon</a></li>
+            <li>💬<a href="https://github.com/rognoni/VanillaStaticCMS/discussions">Discussions</a></li>
+          </ul>
+          <ul>
+            <li><a id="source" href="">source</a> </li>
+            <li><a href="site.yaml">site.yaml</a></li>
+          </ul>
+        </nav>
+      </small>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://unpkg.com/js-yaml@4.1.1/dist/js-yaml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked-gfm-heading-id/lib/index.umd.js"></script>
     <script>
         window.addEventListener("load", async (event) => {
             const params = new URLSearchParams(document.location.search)
             const filepath = params.get("c") ?? "index.md"
             const filefetch = await fetch(filepath, {method: "GET", cache: "no-store"})
-            const markdown = await filefetch.text()
+            let markdown = await filefetch.text()
+
+            // get front-matter (YAML)
+            const regex = /^---\s*\n(.*)\n---\s*\n(.*)$/s
+            const match = markdown.match(regex)
+            let toc = false
+            if (match) {
+              const fm = jsyaml.load(match[1])
+              markdown = match[2]
+              sub_title = fm["date"]
+              sub_title += ` by @${fm["author"]}`
+              document.getElementById("title").innerHTML = `<hgroup><h1>${fm["title"]}</h1><p>${sub_title}</p></hgroup>`
+
+              // TOC
+              if ("toc" in fm && fm["toc"]) {
+                marked.use(markedGfmHeadingId.gfmHeadingId({prefix: ""}))
+                toc = true
+              }
+            }
+
+            // Markdown
             document.getElementById("content").innerHTML = marked.parse(markdown)
+
+            // TOC
+            if (toc) {
+              document.getElementById("toc").innerHTML = markedGfmHeadingId.getHeadingList().map(({id, raw, level}) => `<li><a href="#${id}" class="h${level}">${raw}</a></li>`).join("")
+            }
+
+            // useful for search engines
+            const source_link = `${document.location.origin}/${filepath}`
+            document.querySelector('link[rel="source"]').href = source_link
+            document.getElementById("source").href = source_link
         })
     </script>
   </body>
